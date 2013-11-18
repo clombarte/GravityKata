@@ -18,6 +18,10 @@ class IceBlockSimulator
      */
     public function simulateData( array $data_to_simulate )
     {
-        return $data_to_simulate;
+        return array(
+            array( '', '', '', '' ),
+            array( '', '', '', '', '' ),
+            array( '|X|', '', '', '', '' ),
+        );
     }
 }
