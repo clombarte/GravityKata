@@ -25,15 +25,12 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that simulateData method returns an array as a result.
+     * Tests that simulateData method throws an EmptySimulationDataException when the simulation data is empty.
      */
-    public function testThatSimulateReturnsAnArray()
+    public function testThatSimulateThrowsExceptionWhenSimulationDataIsEmpty()
     {
-        $this->assertInternalType(
-            \PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY,
-            $this->obj->simulateData( array(), array() ),
-            'This method must return an array containing the data after the simulation'
-        );
+        $this->setExpectedException( 'Gravity\EmptySimulationDataException' );
+        $this->obj->simulateData( array(), array() );
     }
 
     /**
