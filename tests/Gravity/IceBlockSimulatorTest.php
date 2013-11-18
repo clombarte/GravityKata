@@ -17,7 +17,7 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
         $obj = new IceBlockSimulator();
         $this->assertInternalType(
             \PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY,
-            $obj->simulate(),
+            $obj->simulateData( array() ),
             'This method must return an array containing the data after the simulation'
         );
     }
