@@ -3,11 +3,11 @@
 namespace Gravity;
 
 /**
- * Simulates the movement of ice blocks when they are pushed to a particular direction.
+ * Interface for classes that can make simulations from a set of data.
  *
  * @author Carlos Lombarte <lombartec@gmail.com>
  */
-class IceBlockSimulator
+interface SimulatorInterface
 {
     /**
      * Takes care of all the process to simulate the input data.
@@ -16,8 +16,5 @@ class IceBlockSimulator
      *
      * @return array The data after the simulation.
      */
-    public function simulateData( array $data_to_simulate )
-    {
-        return $data_to_simulate;
-    }
+    public function simulateData( array $data_to_simulate );
 }
