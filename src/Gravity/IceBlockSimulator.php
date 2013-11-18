@@ -33,14 +33,12 @@ class IceBlockSimulator
             throw new EmptySimulationDataException();
         }
 
-        if ( !$block_to_move )
-        {
-            $data_to_simulate = $this->simulateFreeFallingBlocks( $data_to_simulate );
-        }
-        else
+        if ( $block_to_move )
         {
             $data_to_simulate = $this->simulateBlockPush( $data_to_simulate, $block_to_move['x'], $block_to_move['y'] );
         }
+
+        $data_to_simulate = $this->simulateFreeFallingBlocks( $data_to_simulate );
 
         return $data_to_simulate;
     }
