@@ -10,14 +10,28 @@ namespace Gravity;
 class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * The instance of the class to test.
+     *
+     * @var IceBlockSimulator
+     */
+    private $obj;
+
+    /**
+     * Executed before every test case.
+     */
+    public function setUp()
+    {
+        $this->obj = new IceBlockSimulator();
+    }
+
+    /**
      * Tests that simulateData method returns an array as a result.
      */
     public function testThatSimulateReturnsAnArray()
     {
-        $obj = new IceBlockSimulator();
         $this->assertInternalType(
             \PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY,
-            $obj->simulateData( array() ),
+            $this->obj->simulateData( array() ),
             'This method must return an array containing the data after the simulation'
         );
     }
@@ -39,7 +53,6 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
             array( '', '', '', '', '' ),
         );
 
-        $obj = new IceBlockSimulator();
-        $this->assertEquals( $expected, $obj->simulateData( $data_to_simulate ), 'This method is not returning the expected simulation result' );
+        $this->assertEquals( $expected, $this->obj->simulateData( $data_to_simulate ), 'This method is not returning the expected simulation result' );
     }
 }
