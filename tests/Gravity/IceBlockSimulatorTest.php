@@ -31,7 +31,7 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInternalType(
             \PHPUnit_Framework_Constraint_IsType::TYPE_ARRAY,
-            $this->obj->simulateData( array() ),
+            $this->obj->simulateData( array(), array() ),
             'This method must return an array containing the data after the simulation'
         );
     }
@@ -45,28 +45,33 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'One block falls' => array(
+                'data_to_simulate' => array(
+                    array( '|X|', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                ),
+                'block_to_move' => array(),
                 'expected' => array(
-                    array( '', '', '', '' ),
+                    array( '', '', '', '', '' ),
                     array( '', '', '', '', '' ),
                     array( '|X|', '', '', '', '' ),
-                ),
-                'data_to_simulate' => array(
-                    array( '|X|', '', '', '' ),
-                    array( '', '', '', '', '' ),
-                    array( '', '', '', '', '' ),
                 ),
                 'message' => 'The block must be at the bottom'
             ),
             'One block pushed from left' => array(
-                'expected' => array(
-                    array( '', '', '', '' ),
-                    array( '', '', '', '', '' ),
-                    array( '', '|X|', '', '', '' ),
-                ),
                 'data_to_simulate' => array(
-                    array( '', '', '', '' ),
+                    array( '', '', '', '', '' ),
                     array( '', '', '', '', '' ),
                     array( '|X|', '', '', '', '' ),
+                ),
+                'block_to_move' => array(
+                    'x' => 0,
+                    'y' => 2
+                ),
+                'expected' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '|X|', '', '', '' ),
                 ),
                 'message' => 'The block must move to the right'
             )
@@ -78,8 +83,8 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider simulateDataProvider
      */
-    public function testSimulateData( $expected, $data_to_simulate, $message )
+    public function testSimulateData( $data_to_simulate, $block_to_move, $expected, $message )
     {
-        $this->assertEquals( $expected, $this->obj->simulateData( $data_to_simulate ), $message );
+        $this->assertEquals( $expected, $this->obj->simulateData( $data_to_simulate, $block_to_move ), $message );
     }
 }
