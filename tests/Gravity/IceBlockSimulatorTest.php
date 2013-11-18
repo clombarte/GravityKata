@@ -37,22 +37,49 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that simulateData returns the expected simulation result.
+     * Data provider for testSimulateData method.
+     *
+     * @return array
      */
-    public function testThatSimulateReturnsTheExpectedSimulationResult()
+    public function simulateDataProvider()
     {
-        $expected = array(
-            array( '', '', '', '' ),
-            array( '', '', '', '', '' ),
-            array( '|X|', '', '', '', '' ),
+        return array(
+            'One block falls' => array(
+                'expected' => array(
+                    array( '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '|X|', '', '', '', '' ),
+                ),
+                'data_to_simulate' => array(
+                    array( '|X|', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                ),
+                'message' => 'The block must be at the bottom'
+            ),
+            'One block pushed from left' => array(
+                'expected' => array(
+                    array( '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '|X|', '', '', '' ),
+                ),
+                'data_to_simulate' => array(
+                    array( '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '|X|', '', '', '', '' ),
+                ),
+                'message' => 'The block must move to the right'
+            )
         );
+    }
 
-        $data_to_simulate = array(
-            array( '|X|', '', '', '' ),
-            array( '', '', '', '', '' ),
-            array( '', '', '', '', '' ),
-        );
-
-        $this->assertEquals( $expected, $this->obj->simulateData( $data_to_simulate ), 'This method is not returning the expected simulation result' );
+    /**
+     * Tests that simulateData returns the expected simulation result.
+     *
+     * @dataProvider simulateDataProvider
+     */
+    public function testSimulateData( $expected, $data_to_simulate, $message )
+    {
+        $this->assertEquals( $expected, $this->obj->simulateData( $data_to_simulate ), $message );
     }
 }
