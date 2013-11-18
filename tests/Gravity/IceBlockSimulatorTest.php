@@ -71,6 +71,20 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
                     array( '', '|X|', '', '', '' ),
                 ),
                 'message' => 'The block must move to the right'
+            ),
+            'One block falls having one at bottom' => array(
+                'data_to_simulate' => array(
+                    array( '|X|', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '|X|', '', '', '', '' ),
+                ),
+                'block_to_move' => array(),
+                'expected' => array(
+                    array( '', '', '', '', '' ),
+                    array( '|X|', '', '', '', '' ),
+                    array( '|X|', '', '', '', '' ),
+                ),
+                'message' => 'The block must fall on the bottom placed block'
             )
         );
     }
