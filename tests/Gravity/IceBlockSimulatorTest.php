@@ -131,6 +131,28 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 'message' => 'Both blocks must fall'
             ),
+            'Multiple blocks falling in top of each other' => array(
+                'data_to_simulate' => array(
+                    array( '|X|' ),
+                    array( '' ),
+                    array( '' ),
+                    array( '|X|' ),
+                    array( '|X|' ),
+                    array( '|X|' ),
+                    array( '' ),
+                ),
+                'block_to_move' => array(),
+                'expected' => array(
+                    array( '' ),
+                    array( '' ),
+                    array( '' ),
+                    array( '|X|' ),
+                    array( '|X|' ),
+                    array( '|X|' ),
+                    array( '|X|' ),
+                ),
+                'message' => 'Both blocks must fall'
+            ),
         );
     }
 
