@@ -52,14 +52,28 @@ class IceBlockSimulator
      */
     private function simulateFreeFallingBlocks( $data_to_simulate )
     {
-        for ( $i = 0; $i < count( $data_to_simulate ); $i++ )
+        $number_of_rows = count( $data_to_simulate );
+
+        // Iterate rows backwards to find the lowest block to make it fall.
+        for ( $i = $number_of_rows - 1; $i >= 0; $i-- )
         {
             for ( $j = 0; $j < count( $data_to_simulate[$i] ); $j++ )
             {
-                if ( isset( $data_to_simulate[$i + 1][$j] ) && self::EMPTY_SLOT == $data_to_simulate[$i + 1][$j] )
+                if ( '|X|' == $data_to_simulate[$i][$j] )
                 {
-                    $data_to_simulate[$i + 1][$j] = $data_to_simulate[$i][$j];
-                    $data_to_simulate[$i][$j] = self::EMPTY_SLOT;
+                    $aux_i = $i;
+                    $rows_to_fall = 0;
+                    while ( isset( $data_to_simulate[$aux_i + 1][$j] ) && self::EMPTY_SLOT == $data_to_simulate[$aux_i + 1][$j] )
+                    {
+                        $aux_i++;
+                        $rows_to_fall++;
+                    }
+
+                    if ( $rows_to_fall > 0 )
+                    {
+                        $data_to_simulate[$i + $rows_to_fall][$j] = $data_to_simulate[$i][$j];
+                        $data_to_simulate[$i][$j] = self::EMPTY_SLOT;
+                    }
                 }
             }
         }
