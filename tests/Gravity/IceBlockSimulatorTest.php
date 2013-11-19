@@ -187,6 +187,23 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 'message' => 'There has to be 2 blocks on top and the bottom full'
             ),
+            'Push block out of limits' => array(
+                'data_to_simulate' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '|X|' ),
+                ),
+                'block_to_move' => array(
+                    'x' => 4,
+                    'y' => 2
+                ),
+                'expected' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '|X|' ),
+                ),
+                'message' => 'This block should not be able to be pushed from this position'
+            ),
         );
     }
 
