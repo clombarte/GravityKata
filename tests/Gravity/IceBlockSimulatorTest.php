@@ -238,6 +238,23 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 'message' => 'You should not be able to push an empty slot'
             ),
+            'Not able to push empty slot but falling blocks keep simulating' => array(
+                'data_to_simulate' => array(
+                    array( '', '|X|', '', '|X|', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                ),
+                'block_to_move' => array(
+                    'x' => 0,
+                    'y' => 0
+                ),
+                'expected' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '|X|', '', '|X|', '' ),
+                ),
+                'message' => 'Free falling blocks should still simulate even if the passed block to move is invalid'
+            ),
         );
     }
 
