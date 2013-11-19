@@ -255,6 +255,23 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 'message' => 'Free falling blocks should still simulate even if the passed block to move is invalid'
             ),
+            'Push 3 blocks and no one falls' => array(
+                'data_to_simulate' => array(
+                    array( '', '|X|', '|X|', '', '' ),
+                    array( '|X|', '|X|', '|X|', '', '' ),
+                    array( '|X|', '|X|', '|X|', '|X|', '' ),
+                ),
+                'block_to_move' => array(
+                    'x' => 0,
+                    'y' => 1
+                ),
+                'expected' => array(
+                    array( '', '|X|', '|X|', '', '' ),
+                    array( '', '|X|', '|X|', '|X|', '' ),
+                    array( '|X|', '|X|', '|X|', '|X|', '' ),
+                ),
+                'message' => 'Free falling blocks should still simulate even if the passed block to move is invalid'
+            ),
         );
     }
 
