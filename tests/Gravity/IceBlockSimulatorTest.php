@@ -221,6 +221,23 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 'message' => 'This group of blocks should not be able to be pushed from this position'
             ),
+            'Push empty slot' => array(
+                'data_to_simulate' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                ),
+                'block_to_move' => array(
+                    'x' => 0,
+                    'y' => 0
+                ),
+                'expected' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                ),
+                'message' => 'You should not be able to push an empty slot'
+            ),
         );
     }
 
