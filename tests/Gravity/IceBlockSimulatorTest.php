@@ -153,11 +153,33 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 'message' => 'Both blocks must fall'
             ),
+            'Push block with another block next to it' => array(
+                'data_to_simulate' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '|X|', '|X|', '', '', '' ),
+                ),
+                'block_to_move' => array(
+                    'x' => 0,
+                    'y' => 2
+                ),
+                'expected' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '|X|', '|X|', '', '' ),
+                ),
+                'message' => 'Both blocks must move one place to their right'
+            ),
         );
     }
 
     /**
      * Tests that simulateData returns the expected simulation result.
+     *
+     * @param array     $data_to_simulate   The data to use in the simulation.
+     * @param array     $block_to_move      The block in X and Y axis to push.
+     * @param array     $expected           The expected data after the simulation.
+     * @param string    $message            The error message when the test fails.
      *
      * @dataProvider simulateDataProvider
      */
