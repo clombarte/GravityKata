@@ -204,6 +204,23 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 'message' => 'This block should not be able to be pushed from this position'
             ),
+            'Push group of blocks out of limits' => array(
+                'data_to_simulate' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '|X|', '|X|' ),
+                ),
+                'block_to_move' => array(
+                    'x' => 3,
+                    'y' => 2
+                ),
+                'expected' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '', '' ),
+                    array( '', '', '', '|X|', '|X|' ),
+                ),
+                'message' => 'This group of blocks should not be able to be pushed from this position'
+            ),
         );
     }
 
