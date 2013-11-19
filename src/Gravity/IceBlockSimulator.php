@@ -40,7 +40,7 @@ class IceBlockSimulator
             throw new EmptySimulationDataException();
         }
 
-        if ( $block_to_move )
+        if ( $block_to_move && self::EMPTY_SLOT != $data_to_simulate[$block_to_move['y']][$block_to_move['x']] )
         {
             $data_to_simulate = $this->simulateMultipleBlockPush( $data_to_simulate, $block_to_move['x'], $block_to_move['y'] );
             $data_to_simulate = $this->simulateUniqueBlockPush( $data_to_simulate, $block_to_move['x'], $block_to_move['y'] );
