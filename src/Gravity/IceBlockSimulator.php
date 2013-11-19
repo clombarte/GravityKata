@@ -119,14 +119,18 @@ class IceBlockSimulator
         if ( isset( $data_to_simulate[$y][$x + 1] ) && self::ICE_BLOCK == $data_to_simulate[$y][$x + 1] )
         {
             $blocks_to_move = $this->getNumberOfBlocksTogetherToMove( $data_to_simulate, $x, $y );
+            $column         = $x + 1;
 
-            for ( $column = $x + 1; $blocks_to_move > 0; $blocks_to_move--, $column++ )
+            if ( isset( $data_to_simulate[$y][$blocks_to_move + $column] ) )
             {
-                $data_to_simulate[$y][$column] = self::ICE_BLOCK;
-
-                if ( $column == ( $x + 1 ) )
+                for ( ; $blocks_to_move > 0; $blocks_to_move--, $column++ )
                 {
-                    $data_to_simulate[$y][$column - 1] = self::EMPTY_SLOT;
+                    $data_to_simulate[$y][$column] = self::ICE_BLOCK;
+
+                    if ( $column == ( $x + 1 ) )
+                    {
+                        $data_to_simulate[$y][$column - 1] = self::EMPTY_SLOT;
+                    }
                 }
             }
         }
