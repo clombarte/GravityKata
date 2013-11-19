@@ -69,14 +69,7 @@ class IceBlockSimulator
             {
                 if ( self::ICE_BLOCK == $data_to_simulate[$row][$column] )
                 {
-                    $i              = $row;
-                    $rows_to_fall   = 0;
-
-                    while ( isset( $data_to_simulate[$i + 1][$column] ) && self::EMPTY_SLOT == $data_to_simulate[$i + 1][$column] )
-                    {
-                        $i++;
-                        $rows_to_fall++;
-                    }
+                    $rows_to_fall = $this->getNumberOfRowsToFallForABlock( $data_to_simulate, $row, $column );
 
                     if ( $rows_to_fall > 0 )
                     {
@@ -88,6 +81,28 @@ class IceBlockSimulator
         }
 
         return $data_to_simulate;
+    }
+
+    /**
+     * Gets the total number of rows that a block has to fall to be in top of the ground or another block.
+     *
+     * @param array     $data_to_simulate   The data to read to know where the block is and where it can fall.
+     * @param integer   $current_row        The row where the block is falling.
+     * @param integer   $column             The column where the block is falling.
+     *
+     * @return integer The number of rows that a block has to fall.
+     */
+    private function getNumberOfRowsToFallForABlock( $data_to_simulate, $current_row, $column )
+    {
+        $rows_to_fall = 0;
+
+        while ( isset( $data_to_simulate[$current_row + 1][$column] ) && self::EMPTY_SLOT == $data_to_simulate[$current_row + 1][$column] )
+        {
+            $current_row++;
+            $rows_to_fall++;
+        }
+
+        return $rows_to_fall;
     }
 
     /**
@@ -103,31 +118,44 @@ class IceBlockSimulator
     {
         if ( isset( $data_to_simulate[$y][$x + 1] ) && self::ICE_BLOCK == $data_to_simulate[$y][$x + 1] )
         {
-            $blocks_to_move = 1;
+            $blocks_to_move = $this->getNumberOfBlocksTogetherToMove( $data_to_simulate, $x, $y );
 
-            for ( $column = $x; $column < count( $data_to_simulate[$y] ); $column++ )
+            for ( $column = $x + 1; $blocks_to_move > 0; $blocks_to_move--, $column++ )
             {
-                if ( isset( $data_to_simulate[$y][$column + 1] ) && self::ICE_BLOCK == $data_to_simulate[$y][$column + 1] )
-                {
-                    $blocks_to_move++;
-                }
-            }
+                $data_to_simulate[$y][$column] = self::ICE_BLOCK;
 
-            if ( $blocks_to_move > 1 )
-            {
-                for ( $column = $x + 1; $blocks_to_move > 0; $blocks_to_move--, $column++ )
+                if ( $column == ( $x + 1 ) )
                 {
-                    $data_to_simulate[$y][$column] = self::ICE_BLOCK;
-
-                    if ( $column == ( $x + 1 ) )
-                    {
-                        $data_to_simulate[$y][$column - 1] = self::EMPTY_SLOT;
-                    }
+                    $data_to_simulate[$y][$column - 1] = self::EMPTY_SLOT;
                 }
             }
         }
 
         return $data_to_simulate;
+    }
+
+    /**
+     * Returns the number of blocks in a row we have to push to the right.
+     *
+     * @param array     $data_to_simulate   The simulation data that has to be read to look for groups of blocks.
+     * @param integer   $x                  The block X axis origin of the push force.
+     * @param integer   $y                  The block Y axis origin of the push force.
+     *
+     * @return integer The number of grouped blocks that have to be moved.
+     */
+    private function getNumberOfBlocksTogetherToMove( $data_to_simulate, $x, $y )
+    {
+        $blocks_to_move = 0;
+
+        for ( $column = $x; $column < count( $data_to_simulate[$y] ); $column++ )
+        {
+            if ( isset( $data_to_simulate[$y][$column + 1] ) && self::ICE_BLOCK == $data_to_simulate[$y][$column + 1] )
+            {
+                $blocks_to_move++;
+            }
+        }
+
+        return ( $blocks_to_move > 0 ) ? ++$blocks_to_move : $blocks_to_move ;
     }
 
     /**
