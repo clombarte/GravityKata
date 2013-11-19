@@ -42,7 +42,8 @@ class IceBlockSimulator
 
         if ( $block_to_move )
         {
-            $data_to_simulate = $this->simulateBlockPush( $data_to_simulate, $block_to_move['x'], $block_to_move['y'] );
+            $data_to_simulate = $this->simulateMultipleBlockPush( $data_to_simulate, $block_to_move['x'], $block_to_move['y'] );
+            $data_to_simulate = $this->simulateUniqueBlockPush( $data_to_simulate, $block_to_move['x'], $block_to_move['y'] );
         }
 
         $data_to_simulate = $this->simulateFreeFallingBlocks( $data_to_simulate );
@@ -68,8 +69,9 @@ class IceBlockSimulator
             {
                 if ( self::ICE_BLOCK == $data_to_simulate[$row][$column] )
                 {
-                    $i = $row;
-                    $rows_to_fall = 0;
+                    $i              = $row;
+                    $rows_to_fall   = 0;
+
                     while ( isset( $data_to_simulate[$i + 1][$column] ) && self::EMPTY_SLOT == $data_to_simulate[$i + 1][$column] )
                     {
                         $i++;
@@ -78,8 +80,8 @@ class IceBlockSimulator
 
                     if ( $rows_to_fall > 0 )
                     {
-                        $data_to_simulate[$row + $rows_to_fall][$column] = $data_to_simulate[$row][$column];
-                        $data_to_simulate[$row][$column] = self::EMPTY_SLOT;
+                        $data_to_simulate[$row + $rows_to_fall][$column]    = self::ICE_BLOCK;
+                        $data_to_simulate[$row][$column]                    = self::EMPTY_SLOT;
                     }
                 }
             }
@@ -89,24 +91,20 @@ class IceBlockSimulator
     }
 
     /**
-     * Simulates the push of a block or group of blocks from the left.
+     * Simulates the push of a group of blocks from the left when the block has one or more blocks in his near right.
      *
      * @param array     $data_to_simulate   The input data to use for the simulation.
      * @param integer   $x                  The index of the column.
      * @param integer   $y                  The index of the row.
      *
-     * @return array The resulting simulated block push.
+     * @return array The resulting simulated group of blocks push.
      */
-    private function simulateBlockPush( $data_to_simulate, $x, $y )
+    private function simulateMultipleBlockPush( $data_to_simulate, $x, $y )
     {
-        if ( isset( $data_to_simulate[$y][$x + 1] ) && self::EMPTY_SLOT == $data_to_simulate[$y][$x + 1] )
-        {
-            $data_to_simulate[$y][$x + 1] = $data_to_simulate[$y][$x];
-            $data_to_simulate[$y][$x] = self::EMPTY_SLOT;
-        }
-        else
+        if ( isset( $data_to_simulate[$y][$x + 1] ) && self::ICE_BLOCK == $data_to_simulate[$y][$x + 1] )
         {
             $blocks_to_move = 1;
+
             for ( $column = $x; $column < count( $data_to_simulate[$y] ); $column++ )
             {
                 if ( isset( $data_to_simulate[$y][$column + 1] ) && self::ICE_BLOCK == $data_to_simulate[$y][$column + 1] )
@@ -127,6 +125,26 @@ class IceBlockSimulator
                     }
                 }
             }
+        }
+
+        return $data_to_simulate;
+    }
+
+    /**
+     * Simulates the push of a block from the left when the block does not have another block at his near right.
+     *
+     * @param array     $data_to_simulate   The input data to use for the simulation.
+     * @param integer   $x                  The index of the column.
+     * @param integer   $y                  The index of the row.
+     *
+     * @return array The resulting simulated block push.
+     */
+    private function simulateUniqueBlockPush( $data_to_simulate, $x, $y )
+    {
+        if ( isset( $data_to_simulate[$y][$x + 1] ) && self::EMPTY_SLOT == $data_to_simulate[$y][$x + 1] )
+        {
+            $data_to_simulate[$y][$x + 1]   = self::ICE_BLOCK;
+            $data_to_simulate[$y][$x]       = self::EMPTY_SLOT;
         }
 
         return $data_to_simulate;
