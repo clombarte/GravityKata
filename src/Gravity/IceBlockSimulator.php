@@ -17,6 +17,13 @@ class IceBlockSimulator
     const EMPTY_SLOT = '';
 
     /**
+     * Representation of an ice block.
+     *
+     * @var string
+     */
+    const ICE_BLOCK = '|X|';
+
+    /**
      * Takes care of all the process to simulate the input data.
      *
      * @param array $data_to_simulate   The input data to use to start the simulation.
@@ -55,24 +62,24 @@ class IceBlockSimulator
         $number_of_rows = count( $data_to_simulate );
 
         // Iterate rows backwards to find the lowest block to make it fall.
-        for ( $i = $number_of_rows - 1; $i >= 0; $i-- )
+        for ( $row = $number_of_rows - 1; $row >= 0; $row-- )
         {
-            for ( $j = 0; $j < count( $data_to_simulate[$i] ); $j++ )
+            for ( $column = 0; $column < count( $data_to_simulate[$row] ); $column++ )
             {
-                if ( '|X|' == $data_to_simulate[$i][$j] )
+                if ( self::ICE_BLOCK == $data_to_simulate[$row][$column] )
                 {
-                    $aux_i = $i;
+                    $i = $row;
                     $rows_to_fall = 0;
-                    while ( isset( $data_to_simulate[$aux_i + 1][$j] ) && self::EMPTY_SLOT == $data_to_simulate[$aux_i + 1][$j] )
+                    while ( isset( $data_to_simulate[$i + 1][$column] ) && self::EMPTY_SLOT == $data_to_simulate[$i + 1][$column] )
                     {
-                        $aux_i++;
+                        $i++;
                         $rows_to_fall++;
                     }
 
                     if ( $rows_to_fall > 0 )
                     {
-                        $data_to_simulate[$i + $rows_to_fall][$j] = $data_to_simulate[$i][$j];
-                        $data_to_simulate[$i][$j] = self::EMPTY_SLOT;
+                        $data_to_simulate[$row + $rows_to_fall][$column] = $data_to_simulate[$row][$column];
+                        $data_to_simulate[$row][$column] = self::EMPTY_SLOT;
                     }
                 }
             }
