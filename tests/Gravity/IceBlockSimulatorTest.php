@@ -170,6 +170,23 @@ class IceBlockSimulatorTest extends \PHPUnit_Framework_TestCase
                 ),
                 'message' => 'Both blocks must move one place to their right'
             ),
+            'Push multiple blocks and one falls' => array(
+                'data_to_simulate' => array(
+                    array( '', '', '', '', '' ),
+                    array( '|X|', '|X|', '', '|X|', '' ),
+                    array( '|X|', '|X|', '', '|X|', '|X|' ),
+                ),
+                'block_to_move' => array(
+                    'x' => 0,
+                    'y' => 1
+                ),
+                'expected' => array(
+                    array( '', '', '', '', '' ),
+                    array( '', '|X|', '', '|X|', '' ),
+                    array( '|X|', '|X|', '|X|', '|X|', '|X|' ),
+                ),
+                'message' => 'There has to be 2 blocks on top and the bottom full'
+            ),
         );
     }
 
