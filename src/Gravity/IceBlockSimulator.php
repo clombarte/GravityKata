@@ -89,7 +89,7 @@ class IceBlockSimulator
     }
 
     /**
-     * Simulates the push of a block from the left.
+     * Simulates the push of a block or group of blocks from the left.
      *
      * @param array     $data_to_simulate   The input data to use for the simulation.
      * @param integer   $x                  The index of the column.
@@ -103,6 +103,30 @@ class IceBlockSimulator
         {
             $data_to_simulate[$y][$x + 1] = $data_to_simulate[$y][$x];
             $data_to_simulate[$y][$x] = self::EMPTY_SLOT;
+        }
+        else
+        {
+            $blocks_to_move = 1;
+            for ( $column = $x; $column < count( $data_to_simulate[$y] ); $column++ )
+            {
+                if ( isset( $data_to_simulate[$y][$column + 1] ) && self::ICE_BLOCK == $data_to_simulate[$y][$column + 1] )
+                {
+                    $blocks_to_move++;
+                }
+            }
+
+            if ( $blocks_to_move > 1 )
+            {
+                for ( $column = $x + 1; $blocks_to_move > 0; $blocks_to_move--, $column++ )
+                {
+                    $data_to_simulate[$y][$column] = self::ICE_BLOCK;
+
+                    if ( $column == ( $x + 1 ) )
+                    {
+                        $data_to_simulate[$y][$column - 1] = self::EMPTY_SLOT;
+                    }
+                }
+            }
         }
 
         return $data_to_simulate;
