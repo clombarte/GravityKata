@@ -89,8 +89,8 @@ class IceBlockSimulator
     /**
      * Gets the total number of rows that a block has to fall to be in top of the ground or another block.
      *
-     * @param integer   $current_row        The row where the block is falling.
-     * @param integer   $column             The column where the block is falling.
+     * @param integer $current_row  The row where the block is falling.
+     * @param integer $column       The column where the block is falling.
      *
      * @return integer The number of rows that a block has to fall.
      */
@@ -110,8 +110,8 @@ class IceBlockSimulator
     /**
      * Simulates the push of a group of blocks from the left when the block has one or more blocks in his near right.
      *
-     * @param integer   $x                  The index of the column.
-     * @param integer   $y                  The index of the row.
+     * @param integer $x The index of the column.
+     * @param integer $y The index of the row.
      */
     private function simulateMultipleBlockPush( $x, $y )
     {
@@ -138,8 +138,8 @@ class IceBlockSimulator
     /**
      * Returns the number of blocks in a row we have to push to the right.
      *
-     * @param integer   $x                  The block X axis origin of the push force.
-     * @param integer   $y                  The block Y axis origin of the push force.
+     * @param integer $x The block X axis origin of the push force.
+     * @param integer $y The block Y axis origin of the push force.
      *
      * @return integer The number of grouped blocks that have to be moved.
      */
@@ -161,8 +161,8 @@ class IceBlockSimulator
     /**
      * Simulates the push of a block from the left when the block does not have another block at his near right.
      *
-     * @param integer   $x                  The index of the column.
-     * @param integer   $y                  The index of the row.
+     * @param integer $x The index of the column.
+     * @param integer $y The index of the row.
      */
     private function simulateUniqueBlockPush( $x, $y )
     {
